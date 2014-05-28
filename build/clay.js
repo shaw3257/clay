@@ -1,10 +1,10 @@
 (function() {
-  var GridResizer,
+  var Clay,
     __bind = function(fn, me){ return function(){ return fn.apply(me, arguments); }; },
     __slice = [].slice;
 
-  GridResizer = (function() {
-    function GridResizer(container, minWidth, padding) {
+  Clay = (function() {
+    function Clay(container, minWidth, padding) {
       this.container = container;
       this.minWidth = minWidth;
       this.padding = padding;
@@ -16,14 +16,14 @@
       this.bindOnResize();
     }
 
-    GridResizer.prototype.measure = function() {
+    Clay.prototype.measure = function() {
       var itemCnt, offsetWidth, width;
-      width = this.container.outerWidth();
+      width = this.container.width();
       itemCnt = width / this.minWidth;
-      if (this.padding) {
-        width -= this.padding * itemCnt;
-      }
       this.colCnt = Math.floor(itemCnt);
+      if (this.padding) {
+        width -= this.padding * (this.colCnt - 1);
+      }
       offsetWidth = (width - (this.colCnt * this.minWidth)) / this.colCnt;
       this.itemWidth = offsetWidth + this.minWidth;
       this.grid = [];
@@ -37,8 +37,8 @@
             _this.grid.push([]);
           }
           return _this.grid[row][col] = {
-            x: col === 0 ? _this.padding : _this.itemWidth + _this.grid[row][col - 1].x + _this.padding,
-            y: row === 0 ? _this.padding : _this.grid[row - 1][col].item.height() + _this.grid[row - 1][col].y + _this.padding,
+            x: col === 0 ? 0 : _this.itemWidth + _this.grid[row][col - 1].x + _this.padding,
+            y: row === 0 ? 0 : _this.grid[row - 1][col].item.height() + _this.grid[row - 1][col].y + _this.padding,
             item: $(item)
           };
         };
@@ -46,7 +46,7 @@
       return console.log(this.grid);
     };
 
-    GridResizer.prototype.layout = function() {
+    Clay.prototype.layout = function() {
       var obj, row, _i, _len, _ref, _results;
       $('.item').width(this.itemWidth);
       _ref = this.grid;
@@ -68,7 +68,7 @@
       return _results;
     };
 
-    GridResizer.prototype.bindOnResize = function() {
+    Clay.prototype.bindOnResize = function() {
       var cb;
       cb = this.debounce((function(_this) {
         return function() {
@@ -82,7 +82,7 @@
       });
     };
 
-    GridResizer.prototype.debounce = function(func, threshold, execAsap) {
+    Clay.prototype.debounce = function(func, threshold, execAsap) {
       var timeout;
       timeout = null;
       return function() {
@@ -104,10 +104,10 @@
       };
     };
 
-    return GridResizer;
+    return Clay;
 
   })();
 
-  window.Clay = GridResizer;
+  window.Clay = Clay;
 
 }).call(this);
