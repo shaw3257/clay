@@ -21,7 +21,7 @@
       width = this.container.outerWidth();
       itemCnt = width / this.minWidth;
       if (this.padding) {
-        width -= this.padding * (itemCnt + 1);
+        width -= this.padding * (itemCnt + 3);
       }
       this.colCnt = Math.floor(itemCnt);
       offsetWidth = (width - (this.colCnt * this.minWidth)) / this.colCnt;

@@ -8,7 +8,7 @@ class GridResizer
   measure: =>
     width = @container.outerWidth()
     itemCnt = width / @minWidth
-    width -= ( @padding * ( itemCnt + 1 ) ) if @padding
+    width -= ( @padding * ( itemCnt + 3 ) ) if @padding
     @colCnt = Math.floor(itemCnt)
     offsetWidth = ( ( width - ( @colCnt * @minWidth ) ) / @colCnt )
     @itemWidth = offsetWidth + @minWidth
