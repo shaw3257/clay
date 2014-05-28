@@ -8,7 +8,7 @@ class GridResizer
   measure: =>
     width = @container.outerWidth()
     itemCnt = width / @minWidth
-    width -= ( @padding * ( itemCnt + 3 ) ) if @padding
+    width -= ( @padding * ( itemCnt ) ) if @padding
     @colCnt = Math.floor(itemCnt)
     offsetWidth = ( ( width - ( @colCnt * @minWidth ) ) / @colCnt )
     @itemWidth = offsetWidth + @minWidth
@@ -51,3 +51,5 @@ class GridResizer
       else if (execAsap)
         func.apply(obj, args)
       timeout = setTimeout delayed, threshold || 100
+
+window.Clay = GridResizer
