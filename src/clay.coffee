@@ -13,29 +13,28 @@ class Clay
     offsetWidth = ( ( width - ( @colCnt * @minWidth ) ) / @colCnt )
     @itemWidth = offsetWidth + @minWidth
     @grid = []
-    $('.item').each (i, item)=>
-      height = $(item).height()
+    for item, i in document.querySelectorAll('.item')
+      height = item.clientHeight
       col = i % @colCnt
       row = Math.floor( i / @colCnt )
       @grid.push [] if !@grid[row]
       @grid[row][col] = 
         x: if col == 0 then 0 else @itemWidth + @grid[row][col - 1].x + @padding
-        y: if row == 0 then 0 else @grid[row - 1][col].item.height() + @grid[row - 1][col].y + @padding
-        item: $(item)
+        y: if row == 0 then 0 else @grid[row - 1][col].item.clientHeight + @grid[row - 1][col].y + @padding
+        item: item
 
   layout: =>
-    $('.item').width(@itemWidth)
     for row in @grid
       for obj in row
-        obj.item.css
-          transform: "translate(#{obj.x}px,#{obj.y}px)"     
+        obj.item.style.width = "#{@itemWidth}px"
+        obj.item.style.webkitTransform = "translate(#{obj.x}px,#{obj.y}px)"     
   
   bindOnResize: =>
     cb = @debounce =>
       @measure()
       @layout()
     1000
-    $( window ).on 'resize', ->
+    window.addEventListener 'resize', ->
       cb()
       
   debounce: (func, threshold, execAsap) ->

@@ -17,7 +17,7 @@
     }
 
     Clay.prototype.measure = function() {
-      var itemCnt, offsetWidth, width;
+      var col, height, i, item, itemCnt, offsetWidth, row, width, _i, _len, _ref, _results;
       width = this.container.width();
       itemCnt = width / this.minWidth;
       this.colCnt = Math.floor(itemCnt);
@@ -27,27 +27,27 @@
       offsetWidth = (width - (this.colCnt * this.minWidth)) / this.colCnt;
       this.itemWidth = offsetWidth + this.minWidth;
       this.grid = [];
-      return $('.item').each((function(_this) {
-        return function(i, item) {
-          var col, height, row;
-          height = $(item).height();
-          col = i % _this.colCnt;
-          row = Math.floor(i / _this.colCnt);
-          if (!_this.grid[row]) {
-            _this.grid.push([]);
-          }
-          return _this.grid[row][col] = {
-            x: col === 0 ? 0 : _this.itemWidth + _this.grid[row][col - 1].x + _this.padding,
-            y: row === 0 ? 0 : _this.grid[row - 1][col].item.height() + _this.grid[row - 1][col].y + _this.padding,
-            item: $(item)
-          };
-        };
-      })(this));
+      _ref = document.querySelectorAll('.item');
+      _results = [];
+      for (i = _i = 0, _len = _ref.length; _i < _len; i = ++_i) {
+        item = _ref[i];
+        height = item.clientHeight;
+        col = i % this.colCnt;
+        row = Math.floor(i / this.colCnt);
+        if (!this.grid[row]) {
+          this.grid.push([]);
+        }
+        _results.push(this.grid[row][col] = {
+          x: col === 0 ? 0 : this.itemWidth + this.grid[row][col - 1].x + this.padding,
+          y: row === 0 ? 0 : this.grid[row - 1][col].item.clientHeight + this.grid[row - 1][col].y + this.padding,
+          item: item
+        });
+      }
+      return _results;
     };
 
     Clay.prototype.layout = function() {
       var obj, row, _i, _len, _ref, _results;
-      $('.item').width(this.itemWidth);
       _ref = this.grid;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
@@ -57,12 +57,11 @@
           _results1 = [];
           for (_j = 0, _len1 = row.length; _j < _len1; _j++) {
             obj = row[_j];
-            _results1.push(obj.item.css({
-              transform: "translate(" + obj.x + "px," + obj.y + "px)"
-            }));
+            obj.item.style.width = "" + this.itemWidth + "px";
+            _results1.push(obj.item.style.webkitTransform = "translate(" + obj.x + "px," + obj.y + "px)");
           }
           return _results1;
-        })());
+        }).call(this));
       }
       return _results;
     };
@@ -76,7 +75,7 @@
         };
       })(this));
       1000;
-      return $(window).on('resize', function() {
+      return window.addEventListener('resize', function() {
         return cb();
       });
     };
