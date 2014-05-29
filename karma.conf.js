@@ -17,6 +17,7 @@ module.exports = function(config) {
     files: [
       'build/clay.js',
       'test/*js',
+      'test/lib/*.js',
       'test/fixtures/*.html'
     ],
 
