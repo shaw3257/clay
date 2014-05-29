@@ -22,7 +22,6 @@ class Clay
         x: if col == 0 then 0 else @itemWidth + @grid[row][col - 1].x + @padding
         y: if row == 0 then 0 else @grid[row - 1][col].item.height() + @grid[row - 1][col].y + @padding
         item: $(item)
-    console.log(@grid) 
 
   layout: =>
     $('.item').width(@itemWidth)

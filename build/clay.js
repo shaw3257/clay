@@ -27,7 +27,7 @@
       offsetWidth = (width - (this.colCnt * this.minWidth)) / this.colCnt;
       this.itemWidth = offsetWidth + this.minWidth;
       this.grid = [];
-      $('.item').each((function(_this) {
+      return $('.item').each((function(_this) {
         return function(i, item) {
           var col, height, row;
           height = $(item).height();
@@ -43,7 +43,6 @@
           };
         };
       })(this));
-      return console.log(this.grid);
     };
 
     Clay.prototype.layout = function() {

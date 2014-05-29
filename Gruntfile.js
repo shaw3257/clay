@@ -41,6 +41,6 @@ module.exports = function(grunt) {
   // Default task(s).
   grunt.registerTask('default', ['coffee', 'uglify']);
 
-  grunt.registerTask('watch', ['watch']);
+  grunt.registerTask('watcher', ['watch']);
 
 };
