@@ -1,15 +1,15 @@
 describe('Clay', function(){
 
-	describe('10 Item fixture with 700px container', function(){
+  describe('10 Item fixture with 700px container', function(){
 
-		beforeEach(function (){
-			document.body.innerHTML = __html__['test/fixtures/index.html']
+    beforeEach(function (){
+      document.body.innerHTML = __html__['test/fixtures/index.html']
       $('.container').width(700);
-		});
+    });
 
-		describe('items having width 200px, padding 20px', function(){
+    describe('items having width 200px, padding 20px', function(){
 
-			beforeEach(function (){
+      beforeEach(function (){
         new Clay($('.container'), 200, 20)
       });
 
@@ -43,10 +43,10 @@ describe('Clay', function(){
 
         expect($('.item').eq(9).position().top).toBe(360)
         expect($('.item').eq(9).position().left).toBe(0)
-			});
+      });
 
-		});
-	
-	});
+    });
+  
+  });
 
 });
