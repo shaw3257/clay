@@ -11,6 +11,7 @@
     "karma": "~0.12.16",
     "karma-chrome-launcher": "~0.1.4",
     "karma-jasmine": "~0.2.0",
-    "karma-html2js-preprocessor": "~0.1"
+    "karma-html2js-preprocessor": "~0.1",
+    "karma-phantomjs-launcher": "~0.1.4"
   }
 }
