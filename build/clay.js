@@ -4,17 +4,23 @@
     __slice = [].slice;
 
   Clay = (function() {
-    function Clay(container, minWidth, padding) {
-      this.minWidth = minWidth;
-      this.padding = padding;
+    function Clay(container, opts) {
       this.bindOnResize = __bind(this.bindOnResize, this);
       this.layout = __bind(this.layout, this);
       this.measure = __bind(this.measure, this);
+      this._merge(this.defaults, opts);
       this.container = document.querySelector(container);
+      this.minWidth = this.defaults['minWidth'];
+      this.padding = this.defaults['padding'];
       this.measure();
       this.layout();
       this.bindOnResize();
     }
+
+    Clay.prototype.defaults = {
+      minWidth: 200,
+      padding: 20
+    };
 
     Clay.prototype.measure = function() {
       var col, height, i, item, itemCnt, offsetWidth, row, width, _i, _len, _ref, _results;
@@ -68,7 +74,7 @@
 
     Clay.prototype.bindOnResize = function() {
       var cb;
-      cb = this.debounce((function(_this) {
+      cb = this._debounce((function(_this) {
         return function() {
           _this.measure();
           return _this.layout();
@@ -80,7 +86,7 @@
       });
     };
 
-    Clay.prototype.debounce = function(func, threshold, execAsap) {
+    Clay.prototype._debounce = function(func, threshold, execAsap) {
       var timeout;
       timeout = null;
       return function() {
@@ -100,6 +106,15 @@
         }
         return timeout = setTimeout(delayed, threshold || 100);
       };
+    };
+
+    Clay.prototype._merge = function(obj1, obj2) {
+      var attr, _results;
+      _results = [];
+      for (attr in obj2) {
+        _results.push(obj1[attr] = obj2[attr]);
+      }
+      return _results;
     };
 
     return Clay;

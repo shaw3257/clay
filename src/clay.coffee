@@ -1,10 +1,17 @@
 class Clay
   
-  constructor: (container, @minWidth, @padding)->
+  constructor: (container, opts)->
+    @_merge(@defaults, opts)
     @container = document.querySelector(container)
+    @minWidth = @defaults['minWidth']
+    @padding = @defaults['padding']
     @measure()
     @layout()
     @bindOnResize()
+
+  defaults:
+    minWidth: 200
+    padding: 20
     
   measure: =>
     width = @container.clientWidth
@@ -31,14 +38,14 @@ class Clay
         obj.item.style.webkitTransform = "translate(#{obj.x}px,#{obj.y}px)"     
   
   bindOnResize: =>
-    cb = @debounce =>
+    cb = @_debounce =>
       @measure()
       @layout()
     1000
     window.addEventListener 'resize', ->
       cb()
       
-  debounce: (func, threshold, execAsap) ->
+  _debounce: (func, threshold, execAsap) ->
     timeout = null
     (args...) ->
       obj = this
@@ -50,5 +57,10 @@ class Clay
       else if (execAsap)
         func.apply(obj, args)
       timeout = setTimeout delayed, threshold || 100
+
+  _merge: (obj1, obj2) ->
+    for attr of obj2
+      obj1[attr] = obj2[attr]
+
 
 window.Clay = Clay
