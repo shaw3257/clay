@@ -5,12 +5,12 @@
 
   Clay = (function() {
     function Clay(container, minWidth, padding) {
-      this.container = container;
       this.minWidth = minWidth;
       this.padding = padding;
       this.bindOnResize = __bind(this.bindOnResize, this);
       this.layout = __bind(this.layout, this);
       this.measure = __bind(this.measure, this);
+      this.container = document.querySelector(container);
       this.measure();
       this.layout();
       this.bindOnResize();
@@ -18,7 +18,7 @@
 
     Clay.prototype.measure = function() {
       var col, height, i, item, itemCnt, offsetWidth, row, width, _i, _len, _ref, _results;
-      width = this.container.width();
+      width = this.container.clientWidth;
       itemCnt = width / this.minWidth;
       this.colCnt = Math.floor(itemCnt);
       if (this.padding) {

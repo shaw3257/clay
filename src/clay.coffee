@@ -1,12 +1,13 @@
 class Clay
   
-  constructor: (@container, @minWidth, @padding)->
+  constructor: (container, @minWidth, @padding)->
+    @container = document.querySelector(container)
     @measure()
     @layout()
     @bindOnResize()
     
   measure: =>
-    width = @container.width()
+    width = @container.clientWidth
     itemCnt = width / @minWidth
     @colCnt = Math.floor(itemCnt)
     width -= ( @padding * ( @colCnt - 1) ) if @padding
