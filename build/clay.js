@@ -8,7 +8,7 @@
       this.bindOnResize = __bind(this.bindOnResize, this);
       this.layout = __bind(this.layout, this);
       this.measure = __bind(this.measure, this);
-      this._merge(this.defaults, opts);
+      this._merge_opts(this.defaults, opts);
       this.container = document.querySelector(container);
       this.minWidth = this.defaults['minWidth'];
       this.padding = this.defaults['padding'];
@@ -108,7 +108,7 @@
       };
     };
 
-    Clay.prototype._merge = function(obj1, obj2) {
+    Clay.prototype._merge_opts = function(obj1, obj2) {
       var attr, _results;
       _results = [];
       for (attr in obj2) {

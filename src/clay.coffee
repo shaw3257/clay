@@ -1,7 +1,7 @@
 class Clay
   
   constructor: (container, opts)->
-    @_merge(@defaults, opts)
+    @_merge_opts(@defaults, opts)
     @container = document.querySelector(container)
     @minWidth = @defaults['minWidth']
     @padding = @defaults['padding']
@@ -58,7 +58,7 @@ class Clay
         func.apply(obj, args)
       timeout = setTimeout delayed, threshold || 100
 
-  _merge: (obj1, obj2) ->
+  _merge_opts: (obj1, obj2) ->
     for attr of obj2
       obj1[attr] = obj2[attr]
 
