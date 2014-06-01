@@ -10,7 +10,7 @@ describe('Clay', function(){
     describe('items having width 200px, padding 20px', function(){
 
       beforeEach(function (){
-        new Clay('.container', {minWidth: 200, padding: 20})
+        new Clay('.container', {itemSelector: '.item', padding: 20, gutter: 0})
       });
 
       it('should layout correctly', function(){
