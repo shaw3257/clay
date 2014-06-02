@@ -51,11 +51,13 @@ class Grid
     @layout()
 
   append: (item)=>
-    @container.appendChild item unless @container.contains(item)
+    isNew = !@container.contains(item)
+    @container.appendChild item if isNew
     for column in @columns
       minColumn = column if !minColumn || column.height < minColumn.height
+    console.log('append item', item)
     minColumn.append item
-    minColumn.items[minColumn.items.length - 1].layout()
+    minColumn.items[minColumn.items.length - 1].layout() if isNew
 
   layout: =>
     console.log('grid layout issued')

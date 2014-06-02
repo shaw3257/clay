@@ -86,8 +86,9 @@
     };
 
     Grid.prototype.append = function(item) {
-      var column, minColumn, _i, _len, _ref;
-      if (!this.container.contains(item)) {
+      var column, isNew, minColumn, _i, _len, _ref;
+      isNew = !this.container.contains(item);
+      if (isNew) {
         this.container.appendChild(item);
       }
       _ref = this.columns;
@@ -97,8 +98,11 @@
           minColumn = column;
         }
       }
+      console.log('append item', item);
       minColumn.append(item);
-      return minColumn.items[minColumn.items.length - 1].layout();
+      if (isNew) {
+        return minColumn.items[minColumn.items.length - 1].layout();
+      }
     };
 
     Grid.prototype.layout = function() {
