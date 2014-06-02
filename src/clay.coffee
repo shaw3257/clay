@@ -43,7 +43,7 @@ class Grid
   prepend: (item)=>
     unless @container.contains item
       firstChild = @container.firstChild
-      @container.insertBefore(firstChild, item)
+      @container.insertBefore(item, firstChild)
     @columns[0].items.unshift(item)
     @measure()
     @setupGrid()

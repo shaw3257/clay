@@ -76,7 +76,7 @@
       var firstChild;
       if (!this.container.contains(item)) {
         firstChild = this.container.firstChild;
-        this.container.insertBefore(firstChild, item);
+        this.container.insertBefore(item, firstChild);
       }
       this.columns[0].items.unshift(item);
       this.measure();
