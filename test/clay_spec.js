@@ -10,7 +10,7 @@ describe('Clay', function(){
     describe('items having width 200px, padding 20px', function(){
 
       beforeEach(function (){
-        new Clay('.container', {itemSelector: '.item', padding: 20, gutter: 0})
+        clay = new Clay('.container', {itemSelector: '.item', padding: 20, gutter: 0})
       });
 
       it('should layout correctly', function(){
@@ -41,8 +41,13 @@ describe('Clay', function(){
         expect($('.item').eq(8).position().top).toBe(240)
         expect($('.item').eq(8).position().left).toBe(480)
 
-        expect($('.item').eq(9).position().top).toBe(360)
-        expect($('.item').eq(9).position().left).toBe(0)
+        expect($('.item').eq(9).position().top).toBe(350)
+        expect($('.item').eq(9).position().left).toBe(240)
+      });
+
+      it('should insert correctly', function(){
+        
+
       });
 
     });

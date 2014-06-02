@@ -8,7 +8,8 @@
       this.bindOnResize = __bind(this.bindOnResize, this);
       this.pollDirtyness = __bind(this.pollDirtyness, this);
       this.layout = __bind(this.layout, this);
-      this.insert = __bind(this.insert, this);
+      this.append = __bind(this.append, this);
+      this.prepend = __bind(this.prepend, this);
       this.addItems = __bind(this.addItems, this);
       this.setupGrid = __bind(this.setupGrid, this);
       this.measure = __bind(this.measure, this);
@@ -25,6 +26,13 @@
       this.pollDirtyness();
       this.bindOnResize();
     }
+
+    Grid.prototype.defaults = {
+      itemSelector: '.item',
+      minWidth: 200,
+      padding: 10,
+      gutter: 20
+    };
 
     Grid.prototype.measure = function() {
       var offsetWidth, width;
@@ -59,14 +67,18 @@
       _results = [];
       for (_i = 0, _len = items.length; _i < _len; _i++) {
         item = items[_i];
-        _results.push(this.insert(item));
+        _results.push(this.append(item));
       }
       return _results;
     };
 
-    Grid.prototype.insert = function(item) {
+    Grid.prototype.prepend = function(item) {
+      return this.container.appendChild(item);
+    };
+
+    Grid.prototype.append = function(item) {
       var column, minColumn, _i, _len, _ref;
-      minColumn = void 0;
+      this.container.appendChild(item);
       _ref = this.columns;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         column = _ref[_i];
@@ -74,7 +86,7 @@
           minColumn = column;
         }
       }
-      return minColumn.insert(item);
+      return minColumn.append(item);
     };
 
     Grid.prototype.layout = function() {
@@ -103,7 +115,7 @@
               item.dirtyCheck();
             }
             if (column.dirty) {
-              console.log('found dirty');
+              console.log('found column dirty', column);
               _results.push(column.reLayout());
             } else {
               _results.push(void 0);
@@ -128,13 +140,6 @@
       return window.addEventListener('resize', function() {
         return cb();
       });
-    };
-
-    Grid.prototype.defaults = {
-      itemSelector: '.item',
-      minWidth: 200,
-      padding: 10,
-      gutter: 20
     };
 
     Grid.prototype._merge_opts = function(obj1, obj2) {
@@ -179,17 +184,17 @@
       this.left = left;
       this.layout = __bind(this.layout, this);
       this.reLayout = __bind(this.reLayout, this);
-      this.insert = __bind(this.insert, this);
+      this.append = __bind(this.append, this);
       this.items = [];
       this.height = 0;
       this.dirty = false;
     }
 
-    Column.prototype.insert = function(item) {
+    Column.prototype.append = function(item) {
       var offsetY;
       offsetY = this.height + (this.grid.padding * this.items.length);
       this.items.push(new Item(this, item, offsetY));
-      return this.height += item.clientHeight;
+      return this.height += parseInt(item.style.height);
     };
 
     Column.prototype.reLayout = function() {
@@ -202,7 +207,7 @@
         offsetY = this.height + (this.grid.padding * i);
         console.log('offset y', offsetY);
         item.top = offsetY;
-        this.height += item.item.clientHeight;
+        this.height += parseInt(item.item.style.height);
       }
       this.layout();
       return this.dirty = false;
@@ -230,14 +235,17 @@
       this.top = top;
       this.layout = __bind(this.layout, this);
       this.dirtyCheck = __bind(this.dirtyCheck, this);
-      this.height = this.item.clientHeight;
+      this.height = parseInt(this.item.style.height);
       this.dirty = false;
     }
 
     Item.prototype.dirtyCheck = function() {
-      if (this.height !== this.item.clientHeight) {
+      var newHeight;
+      newHeight = parseInt(this.item.style.height);
+      if (this.height !== newHeight) {
+        console.log('found item dirty', this.item);
         this.dirty = true;
-        this.height = this.item.clientHeight;
+        this.height = newHeight;
         return this.column.dirty = true;
       }
     };

@@ -12,6 +12,12 @@ class Grid
     @layout()
     @pollDirtyness()
     @bindOnResize()
+
+  defaults:
+    itemSelector: '.item'
+    minWidth: 200
+    padding: 10
+    gutter: 20
   
   measure: ()=>
     width = @container.clientWidth
@@ -32,13 +38,17 @@ class Grid
   addItems: ()=>
     items = document.querySelectorAll @itemSelector
     for item in items
-      @insert(item)
+      @append(item)
 
-  insert: (item)=>
-    minColumn = undefined
+  prepend: (item)=>
+    @container.appendChild item
+
+
+  append: (item)=>
+    @container.appendChild item
     for column in @columns
       minColumn = column if !minColumn || column.height < minColumn.height
-    minColumn.insert item
+    minColumn.append item
 
   layout: =>
     console.log('grid layout issued')
@@ -51,7 +61,7 @@ class Grid
         for item in column.items
           item.dirtyCheck()
         if column.dirty
-          console.log('found dirty')
+          console.log('found column dirty', column)
           column.reLayout()
     ,50)
 
@@ -64,12 +74,6 @@ class Grid
     1000
     window.addEventListener 'resize', ->
       cb()
-      
-  defaults:
-    itemSelector: '.item'
-    minWidth: 200
-    padding: 10
-    gutter: 20
     
   _merge_opts: (obj1, obj2) ->
     for attr of obj2
@@ -95,10 +99,10 @@ class Column
     @height = 0
     @dirty = false
 
-  insert: (item)=>
+  append: (item)=>
     offsetY = @height + (@grid.padding * @items.length)
     @items.push new Item(@, item, offsetY)
-    @height += item.clientHeight
+    @height += parseInt(item.style.height)
 
   reLayout: =>
     console.log('column relayout issued')
@@ -107,7 +111,7 @@ class Column
       offsetY = @height + (@grid.padding * i)
       console.log('offset y', offsetY)
       item.top = offsetY
-      @height += item.item.clientHeight
+      @height += parseInt(item.item.style.height)
     @layout()
     @dirty = false
   
@@ -117,13 +121,15 @@ class Column
 
 class Item
   constructor: (@column, @item, @top)->
-    @height = @item.clientHeight
+    @height = parseInt(@item.style.height)
     @dirty = false
     
   dirtyCheck: =>
-    if @height != @item.clientHeight
+    newHeight = parseInt(@item.style.height)
+    if @height != newHeight
+      console.log('found item dirty', @item)
       @dirty = true
-      @height = @item.clientHeight
+      @height = newHeight
       @column.dirty = true
   
   layout: =>
