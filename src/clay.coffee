@@ -41,14 +41,21 @@ class Grid
       @append(item)
 
   prepend: (item)=>
-    @container.appendChild item
-
+    unless @container.contains item
+      firstChild = @container.firstChild
+      @container.insertBefore(firstChild, item)
+    @columns[0].items.unshift(item)
+    @measure()
+    @setupGrid()
+    @addItems()
+    @layout()
 
   append: (item)=>
-    @container.appendChild item
+    @container.appendChild item unless @container.contains(item)
     for column in @columns
       minColumn = column if !minColumn || column.height < minColumn.height
     minColumn.append item
+    minColumn.items[minColumn.items.length - 1].layout()
 
   layout: =>
     console.log('grid layout issued')

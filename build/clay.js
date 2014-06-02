@@ -73,12 +73,23 @@
     };
 
     Grid.prototype.prepend = function(item) {
-      return this.container.appendChild(item);
+      var firstChild;
+      if (!this.container.contains(item)) {
+        firstChild = this.container.firstChild;
+        this.container.insertBefore(firstChild, item);
+      }
+      this.columns[0].items.unshift(item);
+      this.measure();
+      this.setupGrid();
+      this.addItems();
+      return this.layout();
     };
 
     Grid.prototype.append = function(item) {
       var column, minColumn, _i, _len, _ref;
-      this.container.appendChild(item);
+      if (!this.container.contains(item)) {
+        this.container.appendChild(item);
+      }
       _ref = this.columns;
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {
         column = _ref[_i];
@@ -86,7 +97,8 @@
           minColumn = column;
         }
       }
-      return minColumn.append(item);
+      minColumn.append(item);
+      return minColumn.items[minColumn.items.length - 1].layout();
     };
 
     Grid.prototype.layout = function() {

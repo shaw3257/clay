@@ -46,7 +46,8 @@ describe('Clay', function(){
       });
 
       it('should insert correctly', function(){
-        
+        var newItem = $("<div class='item' style='position: absolute; height: 100px; background-color: blue'></div>").get(0)
+        clay.append(newItem)
 
       });
 
