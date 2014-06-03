@@ -6,6 +6,7 @@ class Grid
     @minWidth = @defaults['minWidth']
     @padding = @defaults['padding']
     @gutter = @defaults['gutter']
+    @ensureCSS()
     @measure()
     @setupGrid()
     @addItems()
@@ -18,7 +19,7 @@ class Grid
     minWidth: 200
     padding: 10
     gutter: 20
-  
+
   measure: ()=>
     width = @container.clientWidth
     @colCnt = width // @minWidth
@@ -26,7 +27,7 @@ class Grid
     width -= @gutter * 2 if @gutter
     offsetWidth = ( ( width - ( @colCnt * @minWidth ) ) / @colCnt )
     @itemWidth = offsetWidth + @minWidth
-  
+
   setupGrid: ()=>
     @columns = []
     for i in [0..@colCnt-1]
@@ -34,7 +35,13 @@ class Grid
       offsetX = ( @itemWidth * i ) + @gutter
       offsetX += @padding * i
       @columns.push new Column(@, @itemWidth, offsetX )
-  
+
+  ensureCSS: ()->
+    @container.style.position = 'relative'
+    items = @container.querySelectorAll(@itemSelector)
+    for item in items
+      item.style.position = 'absolute'
+
   addItems: ()=>
     items = document.querySelectorAll @itemSelector
     for item in items
@@ -63,7 +70,7 @@ class Grid
     console.log('grid layout issued')
     for column in @columns
       column.layout()
-      
+
   pollDirtyness: =>
     setInterval(=>
       for column in @columns
@@ -83,11 +90,11 @@ class Grid
     1000
     window.addEventListener 'resize', ->
       cb()
-    
+
   _merge_opts: (obj1, obj2) ->
     for attr of obj2
       obj1[attr] = obj2[attr]
-      
+
   _debounce: (func, threshold, execAsap) ->
     timeout = null
     (args...) ->
@@ -111,7 +118,7 @@ class Column
   append: (item)=>
     offsetY = @height + (@grid.padding * @items.length)
     @items.push new Item(@, item, offsetY)
-    @height += parseInt(item.style.height)
+    @height += parseInt(item.clientHeight)
 
   reLayout: =>
     console.log('column relayout issued')
@@ -120,29 +127,30 @@ class Column
       offsetY = @height + (@grid.padding * i)
       console.log('offset y', offsetY)
       item.top = offsetY
-      @height += parseInt(item.item.style.height)
+      @height += parseInt(item.item.clientHeight)
     @layout()
     @dirty = false
-  
+
   layout: =>
-    for item in @items 
+    for item in @items
       item.layout()
 
 class Item
   constructor: (@column, @item, @top)->
-    @height = parseInt(@item.style.height)
+    @item.style.width = "#{@column.width}px"
+    console.log('creating item with height:' + @item.clientHeight, @item)
+    @height = parseInt(@item.clientHeight)
     @dirty = false
-    
+
   dirtyCheck: =>
-    newHeight = parseInt(@item.style.height)
+    newHeight = parseInt(@item.clientHeight)
     if @height != newHeight
       console.log('found item dirty', @item)
       @dirty = true
       @height = newHeight
       @column.dirty = true
-  
+
   layout: =>
-    @item.style.width = "#{@column.width}px"
     x = @column.left
     y = @top
     @item.style.webkitTransform = "translate(#{x}px,#{y}px)"

@@ -19,6 +19,7 @@
       this.minWidth = this.defaults['minWidth'];
       this.padding = this.defaults['padding'];
       this.gutter = this.defaults['gutter'];
+      this.ensureCSS();
       this.measure();
       this.setupGrid();
       this.addItems();
@@ -57,6 +58,18 @@
         offsetX = (this.itemWidth * i) + this.gutter;
         offsetX += this.padding * i;
         _results.push(this.columns.push(new Column(this, this.itemWidth, offsetX)));
+      }
+      return _results;
+    };
+
+    Grid.prototype.ensureCSS = function() {
+      var item, items, _i, _len, _results;
+      this.container.style.position = 'relative';
+      items = this.container.querySelectorAll(this.itemSelector);
+      _results = [];
+      for (_i = 0, _len = items.length; _i < _len; _i++) {
+        item = items[_i];
+        _results.push(item.style.position = 'absolute');
       }
       return _results;
     };
@@ -210,7 +223,7 @@
       var offsetY;
       offsetY = this.height + (this.grid.padding * this.items.length);
       this.items.push(new Item(this, item, offsetY));
-      return this.height += parseInt(item.style.height);
+      return this.height += parseInt(item.clientHeight);
     };
 
     Column.prototype.reLayout = function() {
@@ -223,7 +236,7 @@
         offsetY = this.height + (this.grid.padding * i);
         console.log('offset y', offsetY);
         item.top = offsetY;
-        this.height += parseInt(item.item.style.height);
+        this.height += parseInt(item.item.clientHeight);
       }
       this.layout();
       return this.dirty = false;
@@ -251,13 +264,15 @@
       this.top = top;
       this.layout = __bind(this.layout, this);
       this.dirtyCheck = __bind(this.dirtyCheck, this);
-      this.height = parseInt(this.item.style.height);
+      this.item.style.width = "" + this.column.width + "px";
+      console.log('creating item with height:' + this.item.clientHeight, this.item);
+      this.height = parseInt(this.item.clientHeight);
       this.dirty = false;
     }
 
     Item.prototype.dirtyCheck = function() {
       var newHeight;
-      newHeight = parseInt(this.item.style.height);
+      newHeight = parseInt(this.item.clientHeight);
       if (this.height !== newHeight) {
         console.log('found item dirty', this.item);
         this.dirty = true;
@@ -268,7 +283,6 @@
 
     Item.prototype.layout = function() {
       var x, y;
-      this.item.style.width = "" + this.column.width + "px";
       x = this.column.left;
       y = this.top;
       this.item.style.webkitTransform = "translate(" + x + "px," + y + "px)";
