@@ -188,6 +188,13 @@ pre code {
   box-shadow: none;
 }
 
+.hljs{
+  background-color: #fff !important;
+  padding: 0 !important;
+  box-shadow:none !important;
+  overflow: inherit !important;
+}
+
 blockquote {
   color: #666;
   margin-bottom: 20px;
@@ -419,5 +426,4 @@ Small Device Styles
     max-width: 480px;
     font-size: 11px;
   }
-
 }

@@ -6,8 +6,10 @@
     <meta name="description" content="Clay : Clay is a masonr-like layout engine." />
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
     <link rel="stylesheet" href="http://yandex.st/highlightjs/8.0/styles/default.min.css">
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/8.0/languages/javascript.min.js"></script>
     <script src="http://yandex.st/highlightjs/8.0/highlight.min.js"></script>
+    <script type="text/javascript">
+      hljs.initHighlightingOnLoad();
+    </script>
     <title>Clay</title>
   </head>
   <body>
@@ -16,7 +18,7 @@
       <header class="inner">
         <a id="forkme_banner" href="https://github.com/shaw3257/clay">View on GitHub</a>
         <h1 id="project_title">Clay</h1>
-        <h2 id="project_tagline">Clay is a masonry-like layout engine.</h2>
+        <h2 id="project_tagline">Clay is an easy to use lightweight masonry-like layout engine.</h2>
         <section id="downloads">
           <a class="zip_download_link" href="https://github.com/shaw3257/clay/zipball/master">Download this project as a .zip file</a>
           <a class="tar_download_link" href="https://github.com/shaw3257/clay/tarball/master">Download this project as a tar.gz file</a>
@@ -41,27 +43,32 @@
         </ul>
         <h3>
         <a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Installation</h3>
-          <pre><code class='html'>
+          <pre><code>
               &lt;script type="text/javascript" src="clay.js"&gt;&lt;/script&gt;
           </code></pre>
         <h3>
         <a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Usage</h3>
         <p>
         <strong>Initalize Clay</strong>
-          <pre><code class='language-html'>
+          <pre><code class='language-js'>
               var clay = new Clay('.container');
             </code></pre>
         </p>
+        <p>
         <strong>Prepend Items</strong>
-          <pre><code class='language-html'>
+          <pre><code class='language-js'>
               var item = document.createElement('div');
               clay.prepend(item);
+              clay.reLayout();
             </code></pre>
+        </p>
+        <p>
         <strong>Append Items</strong>
-          <pre><code class='language-html'>
+          <pre><code class='language-js'>
               var item = document.createElement('div');
-              clay.append(item);
+              clay.append(item); //Appends don't need reLayouts
             </code></pre>
+        </p>
       </section>
     </div>
     <!-- FOOTER  -->
