@@ -51,22 +51,53 @@
         <p>
         <strong>Initalize Clay</strong>
           <pre><code class='language-js'>
+              /*
+              * Creates a default Clay layout
+              * Takes in the container's selector as the first argument
+              */
               var clay = new Clay('.container');
+
+              /*
+              * Creates a customized Clay layout
+              */
+              var clay = new Clay('.container', {
+                minWidth: 100, 
+                gutter: 20, 
+                padding: 15, 
+                itemSelector: '.myitem'
+              });
+
             </code></pre>
         </p>
         <p>
         <strong>Prepend Items</strong>
           <pre><code class='language-js'>
               var item = document.createElement('div');
+              
+              /*
+              * Adds new item to dom and into Clay
+              */
               clay.prepend(item);
+              
+              /*
+              * Re-measure and re-layout the grid
+              */
               clay.reLayout();
+
             </code></pre>
         </p>
         <p>
         <strong>Append Items</strong>
           <pre><code class='language-js'>
               var item = document.createElement('div');
-              clay.append(item); //Appends don't need reLayouts
+
+              /*
+              * Adds new item to dom and into Clay
+              * Also performs a layout of item since appending
+              * can be easily optimized to not require a complete
+              * relayout of grid
+              */
+              clay.append(item);
             </code></pre>
         </p>
       </section>
