@@ -16,7 +16,7 @@ module.exports = function(grunt) {
           flatten: true,
           cwd: 'src',
           src: ['*.coffee'],
-          dest: 'build',
+          dest: 'dist',
           ext: '.js'
         }]
       }
@@ -26,8 +26,8 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'build/clay.js',
-        dest: 'build/clay.min.js'
+        src: 'dist/clay.js',
+        dest: 'dist/clay.min.js'
       }
     }
 

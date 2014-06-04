@@ -15,7 +15,7 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
-      'build/clay.js',
+      'dist/clay.js',
       'test/*js',
       'test/lib/*.js',
       'test/fixtures/*.html'
