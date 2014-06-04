@@ -1,4 +1,4 @@
-clay
+Clay
 ====
 Clay is an easy to use lightweight masonry-like layout engine
 
