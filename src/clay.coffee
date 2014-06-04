@@ -153,8 +153,10 @@ class Item
   layout: =>
     x = @column.left
     y = @top
-    @item.style.webkitTransform = "translate(#{x}px,#{y}px)"
+    @_setTransform "translate(#{x}px,#{y}px)"
     @dirty = false
 
+  _setTransform: (transform) ->
+    @item.style.webkitTransform = @item.style.MozTransform = transform
 
 window.Clay = Grid
