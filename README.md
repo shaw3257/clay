@@ -10,7 +10,7 @@ Clay is a masonry-like layout engine.
 ```
 
 ##### Initalize
-```javscript
+```javascript
 /*
 * Creates a default Clay layout
 * Takes in the container's selector as the first argument
@@ -18,7 +18,7 @@ Clay is a masonry-like layout engine.
 var clay = new Clay('.container');
 ```
 
-```Javscript
+```javascript
 /*
 * Creates a customized Clay layout
 */
@@ -31,7 +31,7 @@ var clay = new Clay('.container', {
 ```
 
 ##### Prepend Items
-```Javscript
+```javascript
 var item = document.createElement('div');
 
 /*
@@ -46,7 +46,7 @@ clay.reLayout();
 ```
 
 ##### Append Items
-```Javscript
+```javascript
 /*
 var item = document.createElement('div');
 
