@@ -10,7 +10,7 @@ Clay is a masonry-like layout engine.
 ```
 
 ##### Initalize
-```Javscript
+```javscript
 /*
 * Creates a default Clay layout
 * Takes in the container's selector as the first argument
