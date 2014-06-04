@@ -1,8 +1,22 @@
 clay
 ====
 
-Clay is a masonry-like layout engine.
+### Description
 
+Clay is an easy to use lightweight masonry-like layout engine
+
+### Features
+- Utilize all of container's width.
+- CSS transitions on grid changes
+- Responsive to window resizes
+- Append Items
+- Prepend Items
+- Delete Items
+- Dirty checking item heights
+- No javascript dependencies
+- Test Coverage
+
+### Usage
 
 ##### Install
 ```HTML
