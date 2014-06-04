@@ -8,7 +8,6 @@ Clay is an easy to use lightweight masonry-like layout engine
 - Responsive to window resizes
 - Append Items
 - Prepend Items
-- Delete Items
 - Dirty checking item heights
 - No javascript dependencies
 - Test Coverage
