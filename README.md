@@ -1,6 +1,8 @@
 Clay
 ====
 Clay is an easy to use lightweight masonry-like layout engine
+ 
+http://shaw3257.github.io/clay
 
 #### Features
 - Utilize all of container's width.
