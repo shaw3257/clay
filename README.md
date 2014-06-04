@@ -1,11 +1,8 @@
 clay
 ====
-
-### Description
-
 Clay is an easy to use lightweight masonry-like layout engine
 
-### Features
+#### Features
 - Utilize all of container's width.
 - CSS transitions on grid changes
 - Responsive to window resizes
@@ -16,14 +13,12 @@ Clay is an easy to use lightweight masonry-like layout engine
 - No javascript dependencies
 - Test Coverage
 
-### Usage
-
-##### Install
+#### Install
 ```HTML
 <script type="text/javascript" src="clay.js"></script>
 ```
 
-##### Initalize
+#### Initalize
 ```javascript
 /*
 * Creates a default Clay layout
@@ -44,7 +39,7 @@ var clay = new Clay('.container', {
 });
 ```
 
-##### Prepend Items
+#### Prepend Items
 ```javascript
 var item = document.createElement('div');
 
@@ -59,7 +54,7 @@ clay.prepend(item);
 clay.reLayout();
 ```
 
-##### Append Items
+#### Append Items
 ```javascript
 /*
 var item = document.createElement('div');
