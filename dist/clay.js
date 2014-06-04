@@ -285,8 +285,12 @@
       var x, y;
       x = this.column.left;
       y = this.top;
-      this.item.style.webkitTransform = "translate(" + x + "px," + y + "px)";
+      this._setTransform("translate(" + x + "px," + y + "px)");
       return this.dirty = false;
+    };
+
+    Item.prototype._setTransform = function(transform) {
+      return this.item.style.webkitTransform = this.item.style.MozTransform = transform;
     };
 
     return Item;
