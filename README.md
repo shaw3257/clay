@@ -57,7 +57,6 @@ clay.reLayout();
 
 #### Append Items
 ```javascript
-/*
 var item = document.createElement('div');
 
 /*
