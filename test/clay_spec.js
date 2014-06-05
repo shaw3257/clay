@@ -46,14 +46,14 @@ describe('Clay', function(){
       });
 
       it('should prepend correctly', function(){
-        var newItem = $("<div id='subject' class='item' style='position: absolute; height: 100px; background-color: green'></div>").get(0)
+        var newItem = $("<div id='subject' class='item' height: 100px; background-color: green'></div>").get(0)
         clay.prepend(newItem)
         expect($('#subject').position().top).toBe(0)
         expect($('#subject').position().left).toBe(0)
       });
 
       it('should append correctly', function(){
-        var newItem = $("<div id='subject' class='item' style='position: absolute; height: 100px; background-color: blue'></div>").get(0)
+        var newItem = $("<div id='subject' class='item' height: 100px; background-color: blue'></div>").get(0)
         clay.append(newItem)
         expect($('#subject').position().top).toBe(360)
         expect($('#subject').position().left).toBe(0)
