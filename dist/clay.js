@@ -7,6 +7,7 @@
     function Grid(container, opts) {
       this.bindOnResize = __bind(this.bindOnResize, this);
       this.pollDirtyness = __bind(this.pollDirtyness, this);
+      this.smallestColumn = __bind(this.smallestColumn, this);
       this.layout = __bind(this.layout, this);
       this.append = __bind(this.append, this);
       this.prepend = __bind(this.prepend, this);
@@ -81,31 +82,23 @@
     };
 
     Grid.prototype.prepend = function(item) {
-      var firstChild;
+      var firstChild, minColumn;
       if (!this.container.contains(item)) {
         firstChild = this.container.firstChild;
         this.container.insertBefore(item, firstChild);
       }
-      this.columns[0].items.unshift(item);
-      this.measure();
-      this.setupGrid();
-      return this.addItems();
+      minColumn = this.smallestColumn();
+      minColumn.prepend(item);
+      return minColumn.layout();
     };
 
     Grid.prototype.append = function(item) {
-      var column, isNew, minColumn, _i, _len, _ref;
+      var isNew, minColumn;
       isNew = !this.container.contains(item);
       if (isNew) {
         this.container.appendChild(item);
       }
-      _ref = this.columns;
-      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
-        column = _ref[_i];
-        if (!minColumn || column.height < minColumn.height) {
-          minColumn = column;
-        }
-      }
-      console.log('append item', item);
+      minColumn = this.smallestColumn();
       minColumn.append(item);
       return minColumn.items[minColumn.items.length - 1].layout();
     };
@@ -119,6 +112,18 @@
         _results.push(column.layout());
       }
       return _results;
+    };
+
+    Grid.prototype.smallestColumn = function() {
+      var column, minColumn, _i, _len, _ref;
+      _ref = this.columns;
+      for (_i = 0, _len = _ref.length; _i < _len; _i++) {
+        column = _ref[_i];
+        if (!minColumn || column.height < minColumn.height) {
+          minColumn = column;
+        }
+      }
+      return minColumn;
     };
 
     Grid.prototype.pollDirtyness = function() {
@@ -204,6 +209,7 @@
       this.left = left;
       this.layout = __bind(this.layout, this);
       this.reLayout = __bind(this.reLayout, this);
+      this.prepend = __bind(this.prepend, this);
       this.append = __bind(this.append, this);
       this.items = [];
       this.height = 0;
@@ -214,6 +220,13 @@
       var offsetY;
       offsetY = this.height + (this.grid.padding * this.items.length);
       this.items.push(new Item(this, item, offsetY));
+      return this.height += parseInt(item.clientHeight);
+    };
+
+    Column.prototype.prepend = function(item) {
+      var offsetY;
+      offsetY = this.height + (this.grid.padding * this.items.length);
+      this.items.unshift(new Item(this, item, 0));
       return this.height += parseInt(item.clientHeight);
     };
 
@@ -256,7 +269,6 @@
       this.layout = __bind(this.layout, this);
       this.dirtyCheck = __bind(this.dirtyCheck, this);
       this.item.style.width = "" + this.column.width + "px";
-      console.log('creating item with height:' + this.item.clientHeight, this.item);
       this.height = parseInt(this.item.clientHeight);
       this.dirty = false;
     }

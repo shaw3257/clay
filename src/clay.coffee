@@ -50,23 +50,25 @@ class Grid
     unless @container.contains item
       firstChild = @container.firstChild
       @container.insertBefore(item, firstChild)
-    @columns[0].items.unshift(item)
-    @measure()
-    @setupGrid()
-    @addItems()
+    minColumn = @smallestColumn()
+    minColumn.prepend(item)
+    minColumn.layout()
 
   append: (item)=>
     isNew = !@container.contains(item)
     @container.appendChild item if isNew
-    for column in @columns
-      minColumn = column if !minColumn || column.height < minColumn.height
-    console.log('append item', item)
+    minColumn = @smallestColumn()
     minColumn.append item
     minColumn.items[minColumn.items.length - 1].layout()
 
   layout: =>
     for column in @columns
       column.layout()
+
+  smallestColumn: =>
+    for column in @columns
+      minColumn = column if !minColumn || column.height < minColumn.height
+    minColumn
 
   pollDirtyness: =>
     setInterval(=>
@@ -117,6 +119,11 @@ class Column
     @items.push new Item(@, item, offsetY)
     @height += parseInt(item.clientHeight)
 
+  prepend:(item)=>
+    offsetY = @height + (@grid.padding * @items.length)
+    @items.unshift(new Item(@, item, 0))
+    @height += parseInt(item.clientHeight)
+
   reLayout: =>
     console.log('column relayout issued')
     @height = 0
@@ -135,7 +142,6 @@ class Column
 class Item
   constructor: (@column, @item, @top)->
     @item.style.width = "#{@column.width}px"
-    console.log('creating item with height:' + @item.clientHeight, @item)
     @height = parseInt(@item.clientHeight)
     @dirty = false
 
