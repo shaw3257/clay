@@ -23,7 +23,6 @@
       this.measure();
       this.setupGrid();
       this.addItems();
-      this.layout();
       this.pollDirtyness();
       this.bindOnResize();
     }
@@ -39,22 +38,18 @@
       var offsetWidth, width;
       width = this.container.clientWidth;
       this.colCnt = Math.floor(width / this.minWidth);
-      if (this.padding) {
-        width -= this.padding * (this.colCnt - 1);
-      }
-      if (this.gutter) {
-        width -= this.gutter * 2;
-      }
+      width -= this.padding * (this.colCnt - 1);
+      width -= this.gutter * 2;
       offsetWidth = (width - (this.colCnt * this.minWidth)) / this.colCnt;
       return this.itemWidth = offsetWidth + this.minWidth;
     };
 
     Grid.prototype.setupGrid = function() {
       var i, offsetX, _i, _ref, _results;
+      console.log('Setting up new grid');
       this.columns = [];
       _results = [];
       for (i = _i = 0, _ref = this.colCnt - 1; 0 <= _ref ? _i <= _ref : _i >= _ref; i = 0 <= _ref ? ++_i : --_i) {
-        console.log('adding new column');
         offsetX = (this.itemWidth * i) + this.gutter;
         offsetX += this.padding * i;
         _results.push(this.columns.push(new Column(this, this.itemWidth, offsetX)));
@@ -76,7 +71,7 @@
 
     Grid.prototype.addItems = function() {
       var item, items, _i, _len, _results;
-      items = document.querySelectorAll(this.itemSelector);
+      items = this.container.querySelectorAll(this.itemSelector);
       _results = [];
       for (_i = 0, _len = items.length; _i < _len; _i++) {
         item = items[_i];
@@ -94,8 +89,7 @@
       this.columns[0].items.unshift(item);
       this.measure();
       this.setupGrid();
-      this.addItems();
-      return this.layout();
+      return this.addItems();
     };
 
     Grid.prototype.append = function(item) {
@@ -113,14 +107,11 @@
       }
       console.log('append item', item);
       minColumn.append(item);
-      if (isNew) {
-        return minColumn.items[minColumn.items.length - 1].layout();
-      }
+      return minColumn.items[minColumn.items.length - 1].layout();
     };
 
     Grid.prototype.layout = function() {
       var column, _i, _len, _ref, _results;
-      console.log('grid layout issued');
       _ref = this.columns;
       _results = [];
       for (_i = 0, _len = _ref.length; _i < _len; _i++) {

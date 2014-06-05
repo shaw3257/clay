@@ -10,7 +10,6 @@ class Grid
     @measure()
     @setupGrid()
     @addItems()
-    @layout()
     @pollDirtyness()
     @bindOnResize()
 
@@ -23,15 +22,15 @@ class Grid
   measure: ()=>
     width = @container.clientWidth
     @colCnt = width // @minWidth
-    width -= ( @padding * ( @colCnt - 1) ) if @padding
-    width -= @gutter * 2 if @gutter
+    width -= ( @padding * ( @colCnt - 1) )
+    width -= @gutter * 2
     offsetWidth = ( ( width - ( @colCnt * @minWidth ) ) / @colCnt )
     @itemWidth = offsetWidth + @minWidth
 
   setupGrid: ()=>
+    console.log('Setting up new grid')
     @columns = []
     for i in [0..@colCnt-1]
-      console.log('adding new column')
       offsetX = ( @itemWidth * i ) + @gutter
       offsetX += @padding * i
       @columns.push new Column(@, @itemWidth, offsetX )
@@ -43,7 +42,7 @@ class Grid
       item.style.position = 'absolute'
 
   addItems: ()=>
-    items = document.querySelectorAll @itemSelector
+    items = @container.querySelectorAll @itemSelector
     for item in items
       @append(item)
 
@@ -55,7 +54,6 @@ class Grid
     @measure()
     @setupGrid()
     @addItems()
-    @layout()
 
   append: (item)=>
     isNew = !@container.contains(item)
@@ -64,10 +62,9 @@ class Grid
       minColumn = column if !minColumn || column.height < minColumn.height
     console.log('append item', item)
     minColumn.append item
-    minColumn.items[minColumn.items.length - 1].layout() if isNew
+    minColumn.items[minColumn.items.length - 1].layout()
 
   layout: =>
-    console.log('grid layout issued')
     for column in @columns
       column.layout()
 
