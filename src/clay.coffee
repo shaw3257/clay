@@ -48,15 +48,17 @@ class Grid
 
   prepend: (item)=>
     unless @container.contains item
+      item.style.position = 'absolute'
       firstChild = @container.firstChild
       @container.insertBefore(item, firstChild)
-    minColumn = @smallestColumn()
-    minColumn.prepend(item)
-    minColumn.layout()
+    @columns[0].prepend(item)
+    @setupGrid()
+    @addItems()
 
   append: (item)=>
-    isNew = !@container.contains(item)
-    @container.appendChild item if isNew
+    unless @container.contains(item)
+      item.style.position = 'absolute'
+      @container.appendChild item
     minColumn = @smallestColumn()
     minColumn.append item
     minColumn.items[minColumn.items.length - 1].layout()

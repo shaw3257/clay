@@ -82,20 +82,21 @@
     };
 
     Grid.prototype.prepend = function(item) {
-      var firstChild, minColumn;
+      var firstChild;
       if (!this.container.contains(item)) {
+        item.style.position = 'absolute';
         firstChild = this.container.firstChild;
         this.container.insertBefore(item, firstChild);
       }
-      minColumn = this.smallestColumn();
-      minColumn.prepend(item);
-      return minColumn.layout();
+      this.columns[0].prepend(item);
+      this.setupGrid();
+      return this.addItems();
     };
 
     Grid.prototype.append = function(item) {
-      var isNew, minColumn;
-      isNew = !this.container.contains(item);
-      if (isNew) {
+      var minColumn;
+      if (!this.container.contains(item)) {
+        item.style.position = 'absolute';
         this.container.appendChild(item);
       }
       minColumn = this.smallestColumn();
